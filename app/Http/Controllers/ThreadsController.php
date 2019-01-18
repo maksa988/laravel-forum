@@ -2,12 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Filters\ThreadFilters;
 use App\Models\Channel;
 use App\Models\Thread;
+use http\Client\Curl\User;
 use Illuminate\Http\Request;
 
 class ThreadsController extends Controller
 {
+    /**
+     * ThreadsController constructor.
+     */
     public function __construct()
     {
         $this->middleware('auth')->except(['index', 'show']);
@@ -19,13 +24,15 @@ class ThreadsController extends Controller
      * @param Channel $channel
      * @return \Illuminate\Http\Response
      */
-    public function index(Channel $channel)
+    public function index(Channel $channel, ThreadFilters $filters)
     {
+        $threads = Thread::latest()->filter($filters);
+
         if($channel->exists) {
-            $threads = $channel->threads()->latest()->get();
-        } else {
-            $threads = Thread::latest()->get();
+            $threads->where('channel_id', $channel->id);
         }
+
+        $threads = $threads->get();
 
         return view('threads.index', compact('threads'));
     }
