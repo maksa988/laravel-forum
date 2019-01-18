@@ -15,13 +15,16 @@ class ThreadTest extends TestCase
 {
     use DatabaseMigrations;
 
+    /**
+     * @var Thread
+     */
     protected $thread;
 
     public function setUp()
     {
         parent::setUp();
 
-        $this->thread = $thread = factory(Thread::class)->create();
+        $this->thread = $thread = create(Thread::class);
     }
 
     /** @test */
