@@ -1,7 +1,20 @@
 <div class="card mt-3">
     <div class="card-header">
-        <a href="#">{{ $reply->owner->name }}</a> said
-        {{ $reply->created_at->diffForHumans() }}...
+        <div class="row">
+            <div class="col-lg-6">
+                <a href="#">{{ $reply->owner->name }}</a> said
+                {{ $reply->created_at->diffForHumans() }}...
+            </div>
+            <div class="col-lg-6 text-right">
+                <form method="post" action="/replies/{{ $reply->id }}/favorites">
+                    @csrf
+                    <button class="btn btn-primary btn-sm" {{ $reply->isFavorited() ? 'disabled' : '' }}>
+                        {{ $reply->favorites()->count() }} {{ str_plural('Favorite', $reply->favorites()->count()) }}
+                    </button>
+                </form>
+            </div>
+        </div>
+
     </div>
 
     <div class="card-body">
