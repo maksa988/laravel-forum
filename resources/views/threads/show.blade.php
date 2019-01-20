@@ -12,13 +12,13 @@
                                 {{ $thread->title }}
                             </div>
                             <div class="col-lg-4 text-lg-right">
-                                @if(Auth::check())
+                                @can('update', $thread)
                                 <form method="POST" action="{{ $thread->path() }}">
                                     @csrf
                                     @method('DELETE')
                                     <button class="btn btn-link" type="submit">Delete Thread</button>
                                 </form>
-                                @endif
+                                @endcan
                             </div>
                         </div>
                     </div>

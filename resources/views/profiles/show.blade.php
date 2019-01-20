@@ -16,8 +16,8 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="col">
-                            <a href="#">{{ $thread->creator->name }}</a> posted:
-                            {{ $thread->title }}
+                            <a href="{{ route('profile', $thread->creator) }}">{{ $thread->creator->name }}</a> posted:
+                            <a href="{{ $thread->path() }}">{{ $thread->title }}</a>
                         </div>
                         <div class="col text-right">
                             {{ $thread->created_at->diffForHumans() }}
