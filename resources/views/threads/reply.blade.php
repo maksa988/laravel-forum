@@ -5,7 +5,7 @@
                 <a href="{{ route('profile', $reply->owner) }}">{{ $reply->owner->name }}</a> said
                 {{ $reply->created_at->diffForHumans() }}...
             </div>
-            <div class="col-lg-6 text-right">
+            <div class="col-lg-6 text-lg-right">
                 <form method="post" action="/replies/{{ $reply->id }}/favorites">
                     @csrf
                     <button class="btn btn-primary btn-sm" {{ $reply->isFavorited() ? 'disabled' : '' }}>

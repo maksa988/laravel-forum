@@ -107,12 +107,20 @@ class ThreadsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Thread  $thread
+     * @param $channel
+     * @param  \App\Models\Thread $thread
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
-    public function destroy(Thread $thread)
+    public function destroy($channel, Thread $thread)
     {
-        //
+        $thread->delete();
+
+        if(request()->wantsJson()) {
+            return response([], 204);
+        }
+
+        return redirect('/threads');
     }
 
     /**

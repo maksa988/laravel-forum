@@ -6,8 +6,21 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">
-                        <a href="{{ route('profile', $thread->creator) }}">{{ $thread->creator->name }}</a> posted:
-                        {{ $thread->title }}
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <a href="{{ route('profile', $thread->creator) }}">{{ $thread->creator->name }}</a> posted:
+                                {{ $thread->title }}
+                            </div>
+                            <div class="col-lg-4 text-lg-right">
+                                @if(Auth::check())
+                                <form method="POST" action="{{ $thread->path() }}">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="btn btn-link" type="submit">Delete Thread</button>
+                                </form>
+                                @endif
+                            </div>
+                        </div>
                     </div>
 
                     <div class="card-body">
@@ -23,8 +36,8 @@
                     {{ $replies->links() }}
                 </div>
 
-
-                @if(auth()->check())
+                <div class="mb-3">
+                    @if(auth()->check())
                     <form action="{{ $thread->path() . '/replies' }}" method="post" class="mt-3">
                         @csrf
                         <div class="from-group mb-3">
@@ -33,9 +46,10 @@
 
                         <button type="submit" class="btn btn-default">Post</button>
                     </form>
-                @else
+                    @else
                     <p class="text-center mt-3">Please <a href="{{ route('login') }}">sign in</a> to participate in this discussion.</p>
-                @endif
+                    @endif
+                </div>
             </div>
             <div class="col-md-4">
                 <div class="card">
