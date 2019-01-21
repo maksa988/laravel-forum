@@ -16,7 +16,7 @@
                                 <form method="POST" action="{{ $thread->path() }}">
                                     @csrf
                                     @method('DELETE')
-                                    <button class="btn btn-link" type="submit">Delete Thread</button>
+                                    <button class="btn btn-link btn-sm" type="submit">Delete Thread</button>
                                 </form>
                                 @endcan
                             </div>
