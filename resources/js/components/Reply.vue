@@ -1,6 +1,10 @@
 <script>
+    import Favorite from './Favorite.vue';
+
     export default {
         props: ['attributes'],
+
+        components: { Favorite },
 
         mounted() {
             this.reply = JSON.parse(this.attributes);

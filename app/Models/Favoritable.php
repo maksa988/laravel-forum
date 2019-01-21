@@ -17,6 +17,14 @@ trait Favoritable
     }
 
     /**
+     * @return bool
+     */
+    public function getIsFavoritedAttribute()
+    {
+        return $this->isFavorited();
+    }
+
+    /**
      * @return mixed
      */
     public function getFavoritesCountAttribute()
@@ -43,5 +51,15 @@ trait Favoritable
         if (!$this->favorites()->where($attributes)->exists()) {
             return $this->favorites()->create($attributes);
         }
+    }
+
+    /**
+     * @param $userId
+     */
+    public function unfavorite($userId)
+    {
+        $attributes = ['user_id' => $userId];
+
+        $this->favorites()->where($attributes)->delete();
     }
 }

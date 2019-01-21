@@ -7,12 +7,14 @@
                     {{ $reply->created_at->diffForHumans() }}...
                 </div>
                 <div class="col-lg-6 text-lg-right">
-                    <form method="post" action="/replies/{{ $reply->id }}/favorites">
-                        @csrf
-                        <button class="btn btn-primary btn-sm" {{ $reply->isFavorited() ? 'disabled' : '' }}>
-                            {{ $reply->favorites_count }} {{ str_plural('Favorite', $reply->favorites_count) }}
-                        </button>
-                    </form>
+                    <favorite :reply="{{ $reply }}"></favorite>
+
+                    {{--<form method="post" action="/replies/{{ $reply->id }}/favorites">--}}
+                        {{--@csrf--}}
+                        {{--<button class="btn btn-primary btn-sm" {{ $reply->isFavorited() ? 'disabled' : '' }}>--}}
+                            {{--{{ $reply->favorites_count }} {{ str_plural('Favorite', $reply->favorites_count) }}--}}
+                        {{--</button>--}}
+                    {{--</form>--}}
                 </div>
             </div>
 
