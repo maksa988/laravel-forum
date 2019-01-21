@@ -4,8 +4,8 @@
             <div class="card-header">
                 <div class="row">
                     <div class="col-lg-6">
-                        <a :href="`/profiles/${data.owner.name}`" v-text="data.owner.name"></a> said
-                        {{ data.created_at }}...
+                        <a :href="`/profiles/${data.owner.name}`" v-text="data.owner.name"></a>
+                        said <span v-text="ago"></span>
                     </div>
                     <div class="col-lg-6 text-lg-right">
                         <div v-if="signedIn">
@@ -39,6 +39,7 @@
 
 <script>
     import Favorite from './Favorite.vue';
+    import moment from 'moment';
 
     export default {
         props: ['data'],
@@ -54,6 +55,10 @@
         },
 
         computed: {
+            ago() {
+                return moment(this.data.created_at).fromNow() + '...';
+            },
+
             signedIn() {
                 return window.App.signedIn;
             },

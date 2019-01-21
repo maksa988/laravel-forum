@@ -29,26 +29,7 @@
                     </div>
                 </div>
 
-                <replies :data="{{ $thread->replies }}" @removed="repliesCount--" @added="repliesCount++"></replies>
-
-                {{--<div class="mt-3">--}}
-                    {{--{{ $replies->links() }}--}}
-                {{--</div>--}}
-
-                <div class="mb-3">
-                    {{--@if(auth()->check())--}}
-                    {{--<form action="{{ $thread->path() . '/replies' }}" method="post" class="mt-3">--}}
-                        {{--@csrf--}}
-                        {{--<div class="from-group mb-3">--}}
-                            {{--<textarea name="body" class="form-control" placeholder="Have something to say?" rows="5"></textarea>--}}
-                        {{--</div>--}}
-
-                        {{--<button type="submit" class="btn btn-default">Post</button>--}}
-                    {{--</form>--}}
-                    {{--@else--}}
-                    {{--<p class="text-center mt-3">Please <a href="{{ route('login') }}">sign in</a> to participate in this discussion.</p>--}}
-                    {{--@endif--}}
-                </div>
+                <replies @removed="repliesCount--" @added="repliesCount++"></replies>
             </div>
             <div class="col-md-4">
                 <div class="card">

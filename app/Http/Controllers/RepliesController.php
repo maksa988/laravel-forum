@@ -16,6 +16,11 @@ class RepliesController extends Controller
         $this->middleware('auth');
     }
 
+    public function index($channelId, Thread $thread)
+    {
+        return $thread->replies()->paginate(20);
+    }
+
     /**
      * @param $channel
      * @param Thread $thread
