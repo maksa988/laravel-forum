@@ -13,7 +13,7 @@
 
         <div class="mt-5"></div>
 
-        @foreach($activities as $date => $activity)
+        @forelse($activities as $date => $activity)
             <div class="row mt-3">
                 <div class="col-12 border-bottom">
                     <h3>{{ $date }}</h3>
@@ -27,6 +27,8 @@
                     @endforeach
                 </div>
             </div>
-        @endforeach
+        @empty
+            <p>There is no activity for this user yet.</p>
+        @endforelse
     </div>
 @stop
