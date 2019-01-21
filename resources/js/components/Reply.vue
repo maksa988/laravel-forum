@@ -1,30 +1,71 @@
+<template>
+    <div>
+        <div :id="`reply-${id}`" class="card mt-3">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <a :href="`/profiles/${data.owner.name}`" v-text="data.owner.name"></a> said
+                        {{ data.created_at }}...
+                    </div>
+                    <div class="col-lg-6 text-lg-right">
+                        <div v-if="signedIn">
+                            <favorite :reply="data"></favorite>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="card-body">
+                <div v-if="editing">
+                    <div class="form-group">
+                        <textarea class="form-control" v-model="body"></textarea>
+                    </div>
+
+                    <button class="btn btn-sm btn-primary" @click="update">Update</button>
+                    <button class="btn btn-sm btn-link" @click="editing = false">Cancel</button>
+                </div>
+
+                <div v-else v-text="body"></div>
+            </div>
+
+            <div class="card-footer d-flex flex-wrap" v-if="canUpdate">
+                <button class="btn btn-secondary mr-2 btn-sm" @click="editing = true">Edit</button>
+                <button class="btn btn-danger btn-sm" @click="destroy">Delete</button>
+            </div>
+        </div>
+    </div>
+</template>
+
 <script>
     import Favorite from './Favorite.vue';
 
     export default {
-        props: ['attributes'],
+        props: ['data'],
 
         components: { Favorite },
 
-        mounted() {
-            this.reply = JSON.parse(this.attributes);
-            this.body = this.reply.body;
-        },
-
         data: function () {
             return {
-                reply: {
-                    id: 0,
-                    body: '',
-                },
+                id: this.data.id,
                 editing: false,
-                body: '',
+                body: this.data.body,
+            }
+        },
+
+        computed: {
+            signedIn() {
+                return window.App.signedIn;
+            },
+
+            canUpdate() {
+                return this.authorize(user => this.data.user_id == user.id);
             }
         },
 
         methods: {
             update() {
-                axios.patch('/replies/' + this.reply.id, {
+                axios.patch('/replies/' + this.data.id, {
                     body: this.body
                 });
 
@@ -34,12 +75,9 @@
             },
 
             destroy() {
-                axios.delete('/replies/' + this.reply.id);
+                axios.delete('/replies/' + this.data.id);
 
-                $(this.$el).fadeOut(300, () => {
-
-                    flash('Your reply has been deleted.');
-                });
+                this.$emit('deleted', this.data.id);
             }
         }
     }
