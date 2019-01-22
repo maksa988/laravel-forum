@@ -7,6 +7,7 @@ use App\Models\Channel;
 use App\Models\Thread;
 use http\Client\Curl\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class ThreadsController extends Controller
 {
@@ -71,11 +72,17 @@ class ThreadsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Thread  $thread
+     * @param $channel
+     * @param  \App\Models\Thread $thread
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
     public function show($channel, Thread $thread)
     {
+        if(auth()->check()) {
+            auth()->user()->read($thread);
+        }
+
         return view('threads.show', compact('thread'));
     }
 

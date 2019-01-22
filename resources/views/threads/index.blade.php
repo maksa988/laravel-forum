@@ -10,7 +10,15 @@
                         <div class="row">
                             <div class="col-lg-8">
                                 <h4>
-                                    <a href="{{ $thread->path() }}">{{ $thread->title }}</a>
+                                    <a href="{{ $thread->path() }}">
+                                        @if($thread->hasUpdatesFor(auth()->user()))
+                                            <strong>
+                                                {{ $thread->title }}
+                                            </strong>
+                                        @else
+                                        {{ $thread->title }}
+                                        @endif
+                                    </a>
                                 </h4>
                             </div>
                             <div class="col-lg-4 text-right">
