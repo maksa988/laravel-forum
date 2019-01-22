@@ -16,6 +16,11 @@ class RepliesController extends Controller
         $this->middleware('auth');
     }
 
+    /**
+     * @param $channelId
+     * @param Thread $thread
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
     public function index($channelId, Thread $thread)
     {
         return $thread->replies()->paginate(20);

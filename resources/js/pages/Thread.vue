@@ -8,7 +8,8 @@
 
         data: function () {
             return {
-                repliesCount: this.initialRepliesCount,
+                repliesCount: this.initialRepliesCount
+                ,
             }
         }
     }

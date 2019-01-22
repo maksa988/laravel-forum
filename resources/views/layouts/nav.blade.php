@@ -17,10 +17,11 @@
 
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="/threads">All Threads</a>
-                        <a class="dropdown-item" href="/threads?popular=1">Popular</a>
                         @if(auth()->check())
                             <a class="dropdown-item" href="/threads?by={{ auth()->user()->name }}">My Threads</a>
                         @endif
+                        <a class="dropdown-item" href="/threads?popular=1">Popular Threads</a>
+                        <a class="dropdown-item" href="/threads?unanswered=1">Unanswered Threads</a>
                     </div>
                 </li>
                 <li class="nav-item"><a href="/threads/create" class="nav-link">New Thread</a></li>
