@@ -11,7 +11,7 @@
                             <div class="col-lg-8">
                                 <h4>
                                     <a href="{{ $thread->path() }}">
-                                        @if($thread->hasUpdatesFor(auth()->user()))
+                                        @if(Auth::check() && $thread->hasUpdatesFor(auth()->user()))
                                             <strong>
                                                 {{ $thread->title }}
                                             </strong>
