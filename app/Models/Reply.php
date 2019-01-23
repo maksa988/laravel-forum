@@ -53,6 +53,14 @@ class Reply extends Model
     }
 
     /**
+     * @return mixed
+     */
+    public function wasJustPublished()
+    {
+        return $this->created_at->g(now()->subMinute());
+    }
+
+    /**
      * @return string
      */
     public function path()
