@@ -57,7 +57,7 @@ class Reply extends Model
      */
     public function wasJustPublished()
     {
-        return $this->created_at->g(now()->subMinute());
+        return $this->created_at->gt(now()->subMinute());
     }
 
     /**

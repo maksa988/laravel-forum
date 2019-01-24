@@ -9,7 +9,7 @@
                :href="notification.data.link"
                v-for="notification in notifications"
                v-text="notification.data.message"
-               @click.prevent="markAsRead(notification)"
+               @click="markAsRead(notification)"
             ></a>
         </div>
     </li>

@@ -2,35 +2,25 @@
 
 namespace App\Notifications;
 
-use App\Models\Reply;
-use App\Models\Thread;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Messages\MailMessage;
 
-class ThreadWasUpdated extends Notification
+class YouWereMentioned extends Notification
 {
     use Queueable;
 
-    /**
-     * @var Thread
-     */
-    protected $thread;
-
-    /**
-     * @var Reply
-     */
     protected $reply;
 
     /**
      * Create a new notification instance.
      *
-     * @param $thread
-     * @param $reply
+     * @return void
      */
-    public function __construct($thread, $reply)
+    public function __construct($reply)
     {
         //
-        $this->thread = $thread;
         $this->reply = $reply;
     }
 
@@ -52,7 +42,7 @@ class ThreadWasUpdated extends Notification
     public function toArray()
     {
         return [
-            'message' => $this->reply->owner->name . ' replied to ' . $this->thread->title,
+            'message' => $this->reply->owner->name . ' mentioned you in ' . $this->reply->thread->title,
             'link' => $this->reply->path(),
         ];
     }
