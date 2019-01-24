@@ -23,6 +23,9 @@ class Reply extends Model
      */
     protected $appends = ['favoritesCount', 'isFavorited'];
 
+    /**
+     *
+     */
     protected static function boot()
     {
         parent::boot();
@@ -66,5 +69,12 @@ class Reply extends Model
     public function path()
     {
         return $this->thread->path() . "#reply-{$this->id}";
+    }
+
+    public function mentionedUsers()
+    {
+        preg_match_all('/\@([^\s\.]+)/', $this->body, $matches);
+
+        return $matches[1];
     }
 }
