@@ -4,10 +4,7 @@
     <div class="container">
         <div class="row">
             <div class="col border-bottom">
-                <h1>
-                    {{ $profileUser->name }}
-                    <small>since {{ $profileUser->created_at->diffForHumans() }}</small>
-                </h1>
+                <avatar-form :user="{{ $profileUser }}"></avatar-form>
             </div>
         </div>
 
