@@ -18,9 +18,12 @@ class Trending
     /**
      * @param array $thread
      */
-    public function path($thread)
+    public function push($thread)
     {
-        Redis::zincrby($this->cacheKey() , 1, json_encode($thread));
+        Redis::zincrby($this->cacheKey() , 1, json_encode([
+            'title' => $thread->title,
+            'path'  => $thread->path(),
+        ]));
     }
 
     /**

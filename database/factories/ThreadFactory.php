@@ -23,5 +23,6 @@ $factory->define(App\Models\Thread::class, function (Faker $faker) {
         },
         'title' => $faker->sentence,
         'body' => $faker->paragraph,
+        'visits' => 0,
     ];
 });

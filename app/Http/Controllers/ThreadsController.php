@@ -90,10 +90,9 @@ class ThreadsController extends Controller
             auth()->user()->read($thread);
         }
 
-        $trending->push([
-            'title' => $thread->title,
-            'path'  => $thread->path(),
-        ]);
+        $trending->push($thread);
+
+        $thread->increment('visits');
 
         return view('threads.show', compact('thread'));
     }

@@ -3,10 +3,7 @@
 namespace App\Models;
 
 use App\Events\ThreadHasNewReply;
-use App\Notifications\ThreadWasUpdated;
-use App\Spam;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
 
 class Thread extends Model
 {
@@ -158,4 +155,5 @@ class Thread extends Model
 
         return $this->updated_at > cache($key);
     }
+
 }
