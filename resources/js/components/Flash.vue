@@ -18,10 +18,11 @@
         },
 
         created() {
-            console.log(this.message);
-
             if (this.message) {
-                this.flash(this.message);
+                this.flash({
+                    message: this.message,
+                    level: 'error',
+                });
             }
 
             window.events.$on('flash', data => {
