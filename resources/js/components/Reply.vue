@@ -16,7 +16,7 @@
 
             </div>
 
-            <div class="card-body">
+            <div class="card-body" :class="isBest ? 'text-white bg-success' : ''">
                 <div v-if="editing">
                     <form @submit="update">
                         <div class="form-group">
@@ -31,9 +31,10 @@
                 <div v-else v-html="body"></div>
             </div>
 
-            <div class="card-footer d-flex flex-wrap" v-if="canUpdate">
+            <div class="card-footer d-flex flex-wrap" v-if="authorize('owns', reply)">
                 <button class="btn btn-secondary mr-2 btn-sm" @click="editing = true">Edit</button>
                 <button class="btn btn-danger btn-sm" @click="destroy">Delete</button>
+                <button class="btn btn-success btn-sm ml-auto" @click="markBestReply" v-show="! isBest">Best reply?</button>
             </div>
         </div>
     </div>
@@ -53,21 +54,20 @@
                 id: this.data.id,
                 editing: false,
                 body: this.data.body,
+                // isBest: this.data.isBest,
+                reply: this.data,
+                thread: window.thread,
             }
         },
 
         computed: {
+            isBest() {
+                return this.thread.best_reply_id == this.id;
+            },
+
             ago() {
                 return moment(this.data.created_at).fromNow() + '...';
             },
-
-            signedIn() {
-                return window.App.signedIn;
-            },
-
-            canUpdate() {
-                return this.authorize(user => this.data.user_id == user.id);
-            }
         },
 
         methods: {
@@ -88,6 +88,12 @@
                 axios.delete('/replies/' + this.data.id);
 
                 this.$emit('deleted', this.data.id);
+            },
+
+            markBestReply() {
+                axios.post('/replies/' + this.data.id + "/best");
+
+                this.thread.best_reply_id = this.id;
             }
         }
     }

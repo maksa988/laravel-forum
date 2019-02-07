@@ -3132,10 +3132,11 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var _this = this;
 
-    console.log(this.message);
-
     if (this.message) {
-      this.flash(this.message);
+      this.flash({
+        message: this.message,
+        level: 'error'
+      });
     }
 
     window.events.$on('flash', function (data) {
@@ -3197,11 +3198,6 @@ __webpack_require__.r(__webpack_exports__);
     return {
       body: ''
     };
-  },
-  computed: {
-    signedIn: function signedIn() {
-      return window.App.signedIn;
-    }
   },
   mounted: function mounted() {
     $("#body").atwho({
@@ -3420,6 +3416,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3431,22 +3428,18 @@ __webpack_require__.r(__webpack_exports__);
     return {
       id: this.data.id,
       editing: false,
-      body: this.data.body
+      body: this.data.body,
+      // isBest: this.data.isBest,
+      reply: this.data,
+      thread: window.thread
     };
   },
   computed: {
+    isBest: function isBest() {
+      return this.thread.best_reply_id == this.id;
+    },
     ago: function ago() {
       return moment__WEBPACK_IMPORTED_MODULE_1___default()(this.data.created_at).fromNow() + '...';
-    },
-    signedIn: function signedIn() {
-      return window.App.signedIn;
-    },
-    canUpdate: function canUpdate() {
-      var _this = this;
-
-      return this.authorize(function (user) {
-        return _this.data.user_id == user.id;
-      });
     }
   },
   methods: {
@@ -3462,6 +3455,10 @@ __webpack_require__.r(__webpack_exports__);
     destroy: function destroy() {
       axios.delete('/replies/' + this.data.id);
       this.$emit('deleted', this.data.id);
+    },
+    markBestReply: function markBestReply() {
+      axios.post('/replies/' + this.data.id + "/best");
+      this.thread.best_reply_id = this.id;
     }
   }
 });
@@ -57514,57 +57511,64 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "card-body" }, [
-        _vm.editing
-          ? _c("div", [
-              _c("form", { on: { submit: _vm.update } }, [
-                _c("div", { staticClass: "form-group" }, [
-                  _c("textarea", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.body,
-                        expression: "body"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: { required: "" },
-                    domProps: { value: _vm.body },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
+      _c(
+        "div",
+        {
+          staticClass: "card-body",
+          class: _vm.isBest ? "text-white bg-success" : ""
+        },
+        [
+          _vm.editing
+            ? _c("div", [
+                _c("form", { on: { submit: _vm.update } }, [
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("textarea", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.body,
+                          expression: "body"
                         }
-                        _vm.body = $event.target.value
+                      ],
+                      staticClass: "form-control",
+                      attrs: { required: "" },
+                      domProps: { value: _vm.body },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.body = $event.target.value
+                        }
                       }
-                    }
-                  })
-                ]),
-                _vm._v(" "),
-                _c("button", { staticClass: "btn btn-sm btn-primary" }, [
-                  _vm._v("Update")
-                ]),
-                _vm._v(" "),
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-sm btn-link",
-                    attrs: { type: "button" },
-                    on: {
-                      click: function($event) {
-                        _vm.editing = false
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("button", { staticClass: "btn btn-sm btn-primary" }, [
+                    _vm._v("Update")
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-sm btn-link",
+                      attrs: { type: "button" },
+                      on: {
+                        click: function($event) {
+                          _vm.editing = false
+                        }
                       }
-                    }
-                  },
-                  [_vm._v("Cancel")]
-                )
+                    },
+                    [_vm._v("Cancel")]
+                  )
+                ])
               ])
-            ])
-          : _c("div", { domProps: { innerHTML: _vm._s(_vm.body) } })
-      ]),
+            : _c("div", { domProps: { innerHTML: _vm._s(_vm.body) } })
+        ]
+      ),
       _vm._v(" "),
-      _vm.canUpdate
+      _vm.authorize("owns", _vm.reply)
         ? _c("div", { staticClass: "card-footer d-flex flex-wrap" }, [
             _c(
               "button",
@@ -57586,6 +57590,23 @@ var render = function() {
                 on: { click: _vm.destroy }
               },
               [_vm._v("Delete")]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: !_vm.isBest,
+                    expression: "! isBest"
+                  }
+                ],
+                staticClass: "btn btn-success btn-sm ml-auto",
+                on: { click: _vm.markBestReply }
+              },
+              [_vm._v("Best reply?")]
             )
           ])
         : _vm._e()
@@ -68993,6 +69014,26 @@ var app = new Vue({
 
 /***/ }),
 
+/***/ "./resources/js/authorizations.js":
+/*!****************************************!*\
+  !*** ./resources/js/authorizations.js ***!
+  \****************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+var user = window.App.user;
+module.exports = {
+  owns: function owns(model) {
+    var prop = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'user_id';
+    return parseInt(model[prop]) === user.id;
+  },
+  isAdmin: function isAdmin() {
+    return user.isAdmin;
+  }
+};
+
+/***/ }),
+
 /***/ "./resources/js/bootstrap.js":
 /*!***********************************!*\
   !*** ./resources/js/bootstrap.js ***!
@@ -69038,10 +69079,26 @@ if (token) {
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 
-window.Vue.prototype.authorize = function (handler) {
-  //
-  var user = window.App.user;
-  return user ? handler(user) : false;
+var authorizations = __webpack_require__(/*! ./authorizations */ "./resources/js/authorizations.js");
+
+Vue.prototype.authorize = function () {
+  if (!window.App.signedIn) return false;
+
+  for (var _len = arguments.length, params = new Array(_len), _key = 0; _key < _len; _key++) {
+    params[_key] = arguments[_key];
+  }
+
+  if (typeof params[0] === 'string') {
+    return authorizations[params[0]](params[1]);
+  }
+
+  return params[0](window.App.user);
+};
+
+Vue.prototype.signedIn = window.App.signedIn;
+
+Vue.prototype.humanTime = function (timestamp) {
+  return moment(timestamp).fromNow();
 };
 
 window.events = new Vue();

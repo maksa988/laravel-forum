@@ -2,6 +2,9 @@
 
 @push('head')
     <link rel="stylesheet" href="{{ asset('css/vendor/jquery.atwho.css') }}">
+    <script>
+        window.thread = @json($thread)
+    </script>
 @endpush
 
 @section('content')

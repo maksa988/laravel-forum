@@ -34,6 +34,8 @@ Route::delete('threads/{channel}/{thread}/subscriptions', 'ThreadSubscriptionsCo
 Route::delete('replies/{reply}', 'RepliesController@destroy');
 Route::patch('replies/{reply}', 'RepliesController@update');
 //
+Route::post('replies/{reply}/best', 'BestRepliesController@store')->name('best-replies.store');
+//
 Route::post('replies/{reply}/favorites', 'FavoritesController@store');
 Route::delete('replies/{reply}/favorites', 'FavoritesController@destroy');
 //

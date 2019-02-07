@@ -81,8 +81,19 @@ class Reply extends Model
         return $matches[1];
     }
 
+    /**
+     * @param $body
+     */
     public function setBodyAttribute($body)
     {
         $this->attributes['body'] = preg_replace('/@([\w\-]+)/', '<a href="/profiles/$1">$0</a>', $body);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isBest()
+    {
+        return $this->thread->best_reply_id == $this->id;
     }
 }
