@@ -3420,17 +3420,15 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['data'],
+  props: ['reply'],
   components: {
     Favorite: _Favorite_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
   data: function data() {
     return {
-      id: this.data.id,
+      id: this.reply.id,
       editing: false,
-      body: this.data.body,
-      // isBest: this.data.isBest,
-      reply: this.data,
+      body: this.reply.body,
       thread: window.thread
     };
   },
@@ -3439,12 +3437,12 @@ __webpack_require__.r(__webpack_exports__);
       return this.thread.best_reply_id == this.id;
     },
     ago: function ago() {
-      return moment__WEBPACK_IMPORTED_MODULE_1___default()(this.data.created_at).fromNow() + '...';
+      return moment__WEBPACK_IMPORTED_MODULE_1___default()(this.reply.created_at).fromNow() + '...';
     }
   },
   methods: {
     update: function update() {
-      axios.patch('/replies/' + this.data.id, {
+      axios.patch('/replies/' + this.id, {
         body: this.body
       }).catch(function (error) {
         flash(error.response.data, 'danger');
@@ -3453,11 +3451,11 @@ __webpack_require__.r(__webpack_exports__);
       flash('Updated!');
     },
     destroy: function destroy() {
-      axios.delete('/replies/' + this.data.id);
-      this.$emit('deleted', this.data.id);
+      axios.delete('/replies/' + this.id);
+      this.$emit('deleted', this.id);
     },
     markBestReply: function markBestReply() {
-      axios.post('/replies/' + this.data.id + "/best");
+      axios.post('/replies/' + this.id + "/best");
       this.thread.best_reply_id = this.id;
     }
   }
@@ -57441,7 +57439,7 @@ var render = function() {
           { key: reply.id },
           [
             _c("reply", {
-              attrs: { data: reply },
+              attrs: { reply: reply },
               on: {
                 deleted: function($event) {
                   _vm.remove(index)
@@ -57496,8 +57494,8 @@ var render = function() {
         _c("div", { staticClass: "row" }, [
           _c("div", { staticClass: "col-lg-6" }, [
             _c("a", {
-              attrs: { href: "/profiles/" + _vm.data.owner.name },
-              domProps: { textContent: _vm._s(_vm.data.owner.name) }
+              attrs: { href: "/profiles/" + _vm.reply.owner.name },
+              domProps: { textContent: _vm._s(_vm.reply.owner.name) }
             }),
             _vm._v("\n                    said "),
             _c("span", { domProps: { textContent: _vm._s(_vm.ago) } })
@@ -57505,7 +57503,7 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "col-lg-6 text-lg-right" }, [
             _vm.signedIn
-              ? _c("div", [_c("favorite", { attrs: { reply: _vm.data } })], 1)
+              ? _c("div", [_c("favorite", { attrs: { reply: _vm.reply } })], 1)
               : _vm._e()
           ])
         ])

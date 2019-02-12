@@ -31,7 +31,7 @@ Route::post('threads/{channel}/{thread}/replies' ,'RepliesController@store');
 Route::post('threads/{channel}/{thread}/subscriptions', 'ThreadSubscriptionsController@store')->middleware('auth');
 Route::delete('threads/{channel}/{thread}/subscriptions', 'ThreadSubscriptionsController@destroy')->middleware('auth');
 //
-Route::delete('replies/{reply}', 'RepliesController@destroy');
+Route::delete('replies/{reply}', 'RepliesController@destroy')->name('replies.destroy');
 Route::patch('replies/{reply}', 'RepliesController@update');
 //
 Route::post('replies/{reply}/best', 'BestRepliesController@store')->name('best-replies.store');

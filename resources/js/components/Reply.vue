@@ -4,12 +4,12 @@
             <div class="card-header">
                 <div class="row">
                     <div class="col-lg-6">
-                        <a :href="`/profiles/${data.owner.name}`" v-text="data.owner.name"></a>
+                        <a :href="`/profiles/${reply.owner.name}`" v-text="reply.owner.name"></a>
                         said <span v-text="ago"></span>
                     </div>
                     <div class="col-lg-6 text-lg-right">
                         <div v-if="signedIn">
-                            <favorite :reply="data"></favorite>
+                            <favorite :reply="reply"></favorite>
                         </div>
                     </div>
                 </div>
@@ -45,17 +45,15 @@
     import moment from 'moment';
 
     export default {
-        props: ['data'],
+        props: ['reply'],
 
         components: { Favorite },
 
         data: function () {
             return {
-                id: this.data.id,
+                id: this.reply.id,
                 editing: false,
-                body: this.data.body,
-                // isBest: this.data.isBest,
-                reply: this.data,
+                body: this.reply.body,
                 thread: window.thread,
             }
         },
@@ -66,13 +64,13 @@
             },
 
             ago() {
-                return moment(this.data.created_at).fromNow() + '...';
+                return moment(this.reply.created_at).fromNow() + '...';
             },
         },
 
         methods: {
             update() {
-                axios.patch('/replies/' + this.data.id, {
+                axios.patch('/replies/' + this.id, {
                         body: this.body
                     })
                     .catch(error => {
@@ -85,13 +83,13 @@
             },
 
             destroy() {
-                axios.delete('/replies/' + this.data.id);
+                axios.delete('/replies/' + this.id);
 
-                this.$emit('deleted', this.data.id);
+                this.$emit('deleted', this.id);
             },
 
             markBestReply() {
-                axios.post('/replies/' + this.data.id + "/best");
+                axios.post('/replies/' + this.id + "/best");
 
                 this.thread.best_reply_id = this.id;
             }
