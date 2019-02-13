@@ -12,6 +12,13 @@
             </div>
 
             <div class="col-md-4">
+                <form class="input-group mt-3">
+                    <input type="text" class="form-control" placeholder="Search for something..." name="q">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="submit">Search</button>
+                    </div>
+                </form>
+
                 @if(count($trending))
                     <div class="card mt-3">
                         <div class="card-header">Trending Threads</div>

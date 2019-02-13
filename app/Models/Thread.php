@@ -4,10 +4,11 @@ namespace App\Models;
 
 use App\Events\ThreadHasNewReply;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
 
 class Thread extends Model
 {
-    use RecordsActivity;
+    use RecordsActivity, Searchable;
 
     /**
      * @var array
