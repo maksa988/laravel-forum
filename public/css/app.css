@@ -10500,3 +10500,8 @@ a.text-dark:focus {
   display: none;
 }
 
+.ais-highlight em {
+  background: yellow;
+  font-style: normal;
+}
+
