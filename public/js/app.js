@@ -3567,13 +3567,39 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       repliesCount: this.thread.replies_count,
-      locked: this.thread.locked
+      locked: this.thread.locked,
+      title: this.thread.title,
+      body: this.thread.body,
+      form: {},
+      editing: false
     };
+  },
+  created: function created() {
+    this.resetForm();
   },
   methods: {
     toggleLock: function toggleLock() {
-      axios[this.locked ? 'delete' : 'post']('/locked-threads/' + this.thread.slug);
+      var uri = "/locked-threads/".concat(this.thread.slug);
+      axios[this.locked ? 'delete' : 'post'](uri);
       this.locked = !this.locked;
+    },
+    update: function update() {
+      var _this = this;
+
+      var uri = "/threads/".concat(this.thread.channel.slug, "/").concat(this.thread.slug);
+      axios.patch(uri, this.form).then(function () {
+        _this.editing = false;
+        _this.title = _this.form.title;
+        _this.body = _this.form.body;
+        flash('Your thread has been updated.');
+      });
+    },
+    resetForm: function resetForm() {
+      this.form = {
+        title: this.thread.title,
+        body: this.thread.body
+      };
+      this.editing = false;
     }
   }
 });
@@ -57537,49 +57563,65 @@ var render = function() {
         [
           _vm.editing
             ? _c("div", [
-                _c("form", { on: { submit: _vm.update } }, [
-                  _c("div", { staticClass: "form-group" }, [
-                    _c("textarea", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.body,
-                          expression: "body"
-                        }
-                      ],
-                      staticClass: "form-control",
-                      attrs: { required: "" },
-                      domProps: { value: _vm.body },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
+                _c(
+                  "form",
+                  {
+                    on: {
+                      submit: function($event) {
+                        $event.preventDefault()
+                        return _vm.update($event)
+                      }
+                    }
+                  },
+                  [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("textarea", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.body,
+                            expression: "body"
                           }
-                          _vm.body = $event.target.value
+                        ],
+                        staticClass: "form-control",
+                        attrs: { required: "" },
+                        domProps: { value: _vm.body },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.body = $event.target.value
+                          }
                         }
-                      }
-                    })
-                  ]),
-                  _vm._v(" "),
-                  _c("button", { staticClass: "btn btn-sm btn-primary" }, [
-                    _vm._v("Update")
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-sm btn-link",
-                      attrs: { type: "button" },
-                      on: {
-                        click: function($event) {
-                          _vm.editing = false
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-sm btn-primary",
+                        attrs: { type: "submit" }
+                      },
+                      [_vm._v("Update")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-sm btn-link",
+                        attrs: { type: "button" },
+                        on: {
+                          click: function($event) {
+                            _vm.editing = false
+                          }
                         }
-                      }
-                    },
-                    [_vm._v("Cancel")]
-                  )
-                ])
+                      },
+                      [_vm._v("Cancel")]
+                    )
+                  ]
+                )
               ])
             : _c("div", { domProps: { innerHTML: _vm._s(_vm.body) } })
         ]

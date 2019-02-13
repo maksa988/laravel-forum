@@ -18,12 +18,12 @@
 
             <div class="card-body" :class="isBest ? 'text-white bg-success' : ''">
                 <div v-if="editing">
-                    <form @submit="update">
+                    <form @submit.prevent="update">
                         <div class="form-group">
                             <textarea class="form-control" v-model="body" required></textarea>
                         </div>
 
-                        <button class="btn btn-sm btn-primary">Update</button>
+                        <button type="submit" class="btn btn-sm btn-primary">Update</button>
                         <button class="btn btn-sm btn-link" @click="editing = false" type="button">Cancel</button>
                     </form>
                 </div>

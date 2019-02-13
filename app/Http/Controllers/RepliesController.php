@@ -69,14 +69,13 @@ class RepliesController extends Controller
      * @param Reply $reply
      * @return void
      * @throws \Illuminate\Auth\Access\AuthorizationException
-     * @throws \Illuminate\Validation\ValidationException
      */
     public function update(Reply $reply)
     {
         $this->authorize('update', $reply);
 
-        $this->validate(request(), ['body' => 'required|spamfree']);
+        request()->validate(['body' => 'required|spamfree']);
 
-        $reply->update(request()->toArray());
+        $reply->update(request(['body']));
     }
 }

@@ -17,11 +17,10 @@ class UserAvatarController extends Controller
 
     /**
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
-     * @throws \Illuminate\Validation\ValidationException
      */
     public function store()
     {
-        $this->validate(request(), [
+        request()->validate([
             'avatar' => ['required', 'image']
         ]);
 
