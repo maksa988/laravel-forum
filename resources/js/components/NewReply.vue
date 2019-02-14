@@ -3,7 +3,6 @@
         <div v-if="signedIn">
             <div class="from-group mb-3">
                 <wysiwyg name="body" v-model="body" placeholder="Have something to say?" :shouldClear="completed"></wysiwyg>
-                <!--<textarea name="body" id="body" class="form-control" placeholder="Have something to say?" rows="5" required v-model="body"></textarea>-->
             </div>
 
             <button type="submit" class="btn btn-success" @click="addReply">Post</button>
