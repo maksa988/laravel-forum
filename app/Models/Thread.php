@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Events\ThreadHasNewReply;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
+use Stevebauman\Purify\Facades\Purify;
 
 class Thread extends Model
 {
@@ -196,8 +197,20 @@ class Thread extends Model
         $this->update(['best_reply_id' => $reply->id]);
     }
 
+    /**
+     * @return array
+     */
     public function toSearchableArray()
     {
         return $this->toArray() + ['path' => $this->path()];
+    }
+
+    /**
+     * @param $body
+     * @return mixed
+     */
+    public function getBodyAttribute($body)
+    {
+        return Purify::clean($body);
     }
 }
