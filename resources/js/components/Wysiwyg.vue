@@ -35,3 +35,7 @@
         }
     }
 </script>
+
+<style lang="scss">
+    @import '~trix/dist/trix.css';
+</style>
