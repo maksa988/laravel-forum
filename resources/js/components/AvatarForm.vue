@@ -3,7 +3,11 @@
         <div class="d-flex align-items-end">
             <img :src="avatar" width="50" height="50" class="mr-2 rounded ">
 
-            <h1 v-text="user.name"></h1>
+            <h1>
+                {{ user.name }}
+
+                <small v-text="reputation"></small>
+            </h1>
         </div>
 
         <div class="py-3">
@@ -37,6 +41,10 @@
         computed: {
             canUpdate() {
                 return this.authorize(user => user.id == this.user.id);
+            },
+
+            reputation() {
+                return this.user.reputation + ' XP';
             }
         },
 

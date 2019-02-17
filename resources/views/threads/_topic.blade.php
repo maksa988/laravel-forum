@@ -30,8 +30,10 @@
         <div class="row">
             <div class="col-lg-12">
                 <img src="{{ $thread->creator->avatar_path }}" class="mr-2" width="25" height="25" align="{{ $thread->creator->name }}">
-                <a href="{{ route('profile', $thread->creator) }}">{{ $thread->creator->name }}</a> posted:
-                <span v-text="title"></span>
+                <a href="{{ route('profile', $thread->creator) }}">
+                    {{ $thread->creator->name }} ({{ $thread->creator->reputation }} XP)
+                </a>
+                posted: <span v-text="title"></span>
             </div>
         </div>
     </div>

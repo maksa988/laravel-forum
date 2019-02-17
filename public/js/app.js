@@ -10886,6 +10886,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -10900,6 +10904,9 @@ __webpack_require__.r(__webpack_exports__);
       return this.authorize(function (user) {
         return user.id == _this.user.id;
       });
+    },
+    reputation: function reputation() {
+      return this.user.reputation + ' XP';
     }
   },
   methods: {
@@ -11012,7 +11019,7 @@ __webpack_require__.r(__webpack_exports__);
     if (this.message) {
       this.flash({
         message: this.message,
-        level: 'error'
+        level: 'danger'
       });
     }
 
@@ -82479,7 +82486,10 @@ var render = function() {
         attrs: { src: _vm.avatar, width: "50", height: "50" }
       }),
       _vm._v(" "),
-      _c("h1", { domProps: { textContent: _vm._s(_vm.user.name) } })
+      _c("h1", [
+        _vm._v("\n            " + _vm._s(_vm.user.name) + "\n\n            "),
+        _c("small", { domProps: { textContent: _vm._s(_vm.reputation) } })
+      ])
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "py-3" }, [

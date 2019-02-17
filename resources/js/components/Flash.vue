@@ -21,7 +21,7 @@
             if (this.message) {
                 this.flash({
                     message: this.message,
-                    level: 'error',
+                    level: 'danger',
                 });
             }
 
