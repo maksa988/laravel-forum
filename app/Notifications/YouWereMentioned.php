@@ -2,34 +2,42 @@
 
 namespace App\Notifications;
 
+use App\Models\Reply;
+use App\Models\Thread;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
 
 class YouWereMentioned extends Notification
 {
     use Queueable;
 
-    protected $reply;
+    /**
+     * @var Reply or Thread
+     */
+    protected $subject;
 
     /**
      * Create a new notification instance.
      *
-     * @return void
+     * @param $subject
      */
-    public function __construct($reply)
+    public function __construct($subject)
     {
-        //
-        $this->reply = $reply;
+        $this->subject = $subject;
+
+        $isReply = ($subject instanceof Reply);
+
+        $this->subject['title'] = $isReply ? $subject->thread->title : $subject->title;
+        $this->subject['owner'] = $isReply ? $subject->owner->name : $subject->creator->name;
     }
 
     /**
      * Get the notification's delivery channels.
      *
+     * @param  mixed $notifiable
      * @return array
      */
-    public function via()
+    public function via($notifiable)
     {
         return ['database'];
     }
@@ -37,13 +45,14 @@ class YouWereMentioned extends Notification
     /**
      * Get the array representation of the notification.
      *
+     * @param  mixed $notifiable
      * @return array
      */
-    public function toArray()
+    public function toArray($notifiable)
     {
         return [
-            'message' => $this->reply->owner->name . ' mentioned you in ' . $this->reply->thread->title,
-            'link' => $this->reply->path(),
+            'message' => $this->subject['owner'] . ' mentioned you in ' . $this->subject['title'],
+            'link' => $this->subject->path()
         ];
     }
 }
