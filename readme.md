@@ -19,7 +19,9 @@ npm run dev
 
 ### Step 2.
 
-Until an administration portal is available, manually insert any number of "channels" (think of these as forum categories) into the "channels" table in your database.
+Next, boot up a server and visit your forum. If using a tool like Laravel Valet, of course the URL will default to `http://council.test`. 
+
+Visit: `http://council.test/register` to register a new forum account.
 
 Once finished, clear your server cache, and you're all set to go!
 
