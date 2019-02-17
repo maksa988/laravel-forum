@@ -7,6 +7,8 @@ use Zttp\Zttp;
 
 class Recaptcha implements Rule
 {
+    const URL = 'https://www.google.com/recaptcha/api/siteverify';
+
     /**
      * Create a new rule instance.
      *
@@ -26,7 +28,7 @@ class Recaptcha implements Rule
      */
     public function passes($attribute, $value)
     {
-        $response = Zttp::asFormParams()->post('https://www.google.com/recaptcha/api/siteverify', [
+        $response = Zttp::asFormParams()->post(static::URL, [
             'secret' => config('forum.recaptcha.secret'),
             'response' => $value,
             'remoteip' => request()->ip(),
