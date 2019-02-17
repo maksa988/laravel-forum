@@ -3,18 +3,12 @@
 namespace App\Events;
 
 use App\Models\Reply;
-use App\Models\Thread;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class ThreadHasNewReply
+class ThreadReceivedNewReply
 {
     use Dispatchable, SerializesModels;
-
-    /**
-     * @var Thread
-     */
-    public $thread;
 
     /**
      * @var Reply
@@ -24,11 +18,18 @@ class ThreadHasNewReply
     /**
      * Create a new event instance.
      *
-     * @return void
+     * @param Reply $reply
      */
-    public function __construct($thread, $reply)
+    public function __construct($reply)
     {
-        $this->thread = $thread;
         $this->reply = $reply;
+    }
+
+    /**
+     * Get the subject of the event.
+     */
+    public function subject()
+    {
+        return $this->reply;
     }
 }

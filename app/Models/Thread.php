@@ -2,7 +2,8 @@
 
 namespace App\Models;
 
-use App\Events\ThreadHasNewReply;
+use App\Events\ThreadReceivedNewReply;
+use App\Events\ThreadWasPublished;
 use App\Services\Mentions;
 use App\Services\Reputation;
 use Illuminate\Database\Eloquent\Model;
@@ -55,10 +56,18 @@ class Thread extends Model
         static::created(function ($thread) {
             $thread->update(['slug' => $thread->title]);
 
-            Mentions::notifyMentionedUsers($thread);
+            event(new ThreadWasPublished($thread));
 
             Reputation::award($thread->creator, Reputation::THREAD_WAS_PUBLISHED);
         });
+    }
+
+    /**
+     * Get the title for the thread.
+     */
+    public function title()
+    {
+        return $this->title;
     }
 
     /**
@@ -111,7 +120,7 @@ class Thread extends Model
     {
         $reply = $this->replies()->create($reply);
 
-        event(new ThreadHasNewReply($this, $reply));
+        event(new ThreadReceivedNewReply($reply));
 
         return $reply;
     }

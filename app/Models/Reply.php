@@ -101,4 +101,12 @@ class Reply extends Model
     {
         return Purify::clean($body);
     }
+
+    /**
+     * Get the related title for the reply.
+     */
+    public function title()
+    {
+        return $this->thread->title;
+    }
 }
