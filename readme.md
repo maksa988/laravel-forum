@@ -13,25 +13,11 @@ Begin by cloning this repository to your machine, and installing all Composer & 
 ```bash
 git clone git@github.com:maksa988/laravel-forum.git forum
 cd forum && composer install && npm install
-php artisan key:generate
-mv .env.example .env
+php artisan forum:install
 npm run dev
 ```
 
 ### Step 2.
-
-Next, create a new database and reference its name and username/password within the project's `.env` file. In the example below, we've named the database, "council."
-
-```
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=forum
-DB_USERNAME=root
-DB_PASSWORD=
-```
-
-### Step 3.
 
 Until an administration portal is available, manually insert any number of "channels" (think of these as forum categories) into the "channels" table in your database.
 
@@ -41,6 +27,6 @@ Once finished, clear your server cache, and you're all set to go!
 php artisan cache:clear
 ```
 
-### Step 4.
+### Step 3.
 
-Use your forum! Visit `http://forum.test/threads` to create a new account and publish your first thread.
+Use your forum! Visit `http://forum.test/` to create a new account and publish your first thread.
