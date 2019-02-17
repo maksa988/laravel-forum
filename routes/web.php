@@ -26,7 +26,7 @@ Route::patch('threads/{channel}/{thread}', 'ThreadsController@update')->name('th
 Route::get('threads/{channel}', 'ThreadsController@index')->name('channels');
 Route::delete('threads/{channel}/{thread}', 'ThreadsController@destroy')->name('threads.delete');
 Route::get('threads/{channel}/{thread}/replies' ,'RepliesController@index');
-Route::post('threads/{channel}/{thread}/replies' ,'RepliesController@store');
+Route::post('threads/{channel}/{thread}/replies' ,'RepliesController@store')->middleware('verified');
 Route::post('threads/{channel}/{thread}/subscriptions', 'ThreadSubscriptionsController@store')->middleware('auth');
 Route::delete('threads/{channel}/{thread}/subscriptions', 'ThreadSubscriptionsController@destroy')->middleware('auth');
 //
