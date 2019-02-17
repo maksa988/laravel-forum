@@ -23,12 +23,6 @@ Next, boot up a server and visit your forum. If using a tool like Laravel Valet,
 
 Visit: `http://council.test/register` to register a new forum account.
 
-Once finished, clear your server cache, and you're all set to go!
-
-```
-php artisan cache:clear
-```
-
 ### Step 3.
 
 Use your forum! Visit `http://forum.test/` to create a new account and publish your first thread.

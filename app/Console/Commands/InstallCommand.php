@@ -45,6 +45,8 @@ class InstallCommand extends Command
             $this->line("~ Database successfully migrated.");
         }
 
+        $this->call('cache:clear');
+
         $this->goodbye();
     }
 
@@ -103,7 +105,7 @@ class InstallCommand extends Command
     protected function createEnvFile()
     {
         if (! file_exists('.env')) {
-            exec('cp .env.example .env');
+            copy('.env.example', '.env');
 
             $this->line(".env file successfully created");
         }
