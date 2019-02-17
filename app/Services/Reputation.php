@@ -9,6 +9,7 @@ class Reputation
     const THREAD_WAS_PUBLISHED = 10;
     const REPLY_POSTED = 2;
     const BEST_REPLY_AWARDED = 50;
+    const REPLY_FAVIROTED = 5;
 
     /**
      * Award reputation points to the given user.
