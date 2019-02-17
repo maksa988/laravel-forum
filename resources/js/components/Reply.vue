@@ -32,7 +32,7 @@
             </div>
 
             <div class="card-footer d-flex flex-wrap" v-if="authorize('owns', reply)">
-                <button class="btn btn-secondary mr-2 btn-sm" @click="editing = true">Edit</button>
+                <button class="btn btn-secondary mr-2 btn-sm" @click="cancel">Edit</button>
                 <button class="btn btn-danger btn-sm" @click="destroy">Delete</button>
                 <button class="btn btn-success btn-sm ml-auto" @click="markBestReply" v-show="! isBest">Best reply?</button>
             </div>
@@ -80,6 +80,11 @@
                 this.editing = false;
 
                 flash('Updated!');
+            },
+
+            cancel() {
+                this.editing = false;
+                this.body = this.reply.body;
             },
 
             destroy() {

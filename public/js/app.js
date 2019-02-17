@@ -11338,6 +11338,10 @@ __webpack_require__.r(__webpack_exports__);
       this.editing = false;
       flash('Updated!');
     },
+    cancel: function cancel() {
+      this.editing = false;
+      this.body = this.reply.body;
+    },
     destroy: function destroy() {
       axios.delete('/replies/' + this.id);
       this.$emit('deleted', this.id);
@@ -82962,11 +82966,7 @@ var render = function() {
               "button",
               {
                 staticClass: "btn btn-secondary mr-2 btn-sm",
-                on: {
-                  click: function($event) {
-                    _vm.editing = true
-                  }
-                }
+                on: { click: _vm.cancel }
               },
               [_vm._v("Edit")]
             ),
