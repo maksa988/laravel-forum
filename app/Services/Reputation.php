@@ -20,4 +20,15 @@ class Reputation
     {
         $user->increment('reputation', $points);
     }
+
+    /**
+     * Reduce reputation points for the given user.
+     *
+     * @param User $user
+     * @param $points
+     */
+    public static function reduce($user, $points)
+    {
+        $user->decrement('reputation', $points);
+    }
 }
