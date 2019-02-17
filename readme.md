@@ -8,13 +8,14 @@ This is an open source forum that was built and maintained at Laracasts.com.
 
 > To run this project, you must have PHP 7 installed as a prerequisite.
 
-Begin by cloning this repository to your machine, and installing all Composer dependencies.
+Begin by cloning this repository to your machine, and installing all Composer & NPM dependencies.
 
 ```bash
 git clone git@github.com:maksa988/laravel-forum.git forum
-cd forum && composer install
+cd forum && composer install && npm install
 php artisan key:generate
 mv .env.example .env
+npm run dev
 ```
 
 ### Step 2.
