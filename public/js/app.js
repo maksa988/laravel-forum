@@ -11075,6 +11075,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -11097,6 +11101,11 @@ __webpack_require__.r(__webpack_exports__);
         }
       }
     });
+  },
+  computed: {
+    confirmed: function confirmed() {
+      return window.App.user.confirmed;
+    }
   },
   methods: {
     addReply: function addReply() {
@@ -82711,37 +82720,48 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _vm.signedIn
-      ? _c("div", [
-          _c(
-            "div",
-            { staticClass: "from-group mb-3" },
-            [
-              _c("wysiwyg", {
-                attrs: { name: "body", placeholder: "Have something to say?" },
-                model: {
-                  value: _vm.body,
-                  callback: function($$v) {
-                    _vm.body = $$v
+    !_vm.signedIn
+      ? _c("div", [_vm._m(0)])
+      : !_vm.confirmed
+        ? _c("div", [
+            _c("p", { staticClass: "text-center mt-3" }, [
+              _vm._v(
+                "To participate in this thread, please check your email and confirm your account."
+              )
+            ])
+          ])
+        : _c("div", [
+            _c(
+              "div",
+              { staticClass: "from-group mb-3" },
+              [
+                _c("wysiwyg", {
+                  attrs: {
+                    name: "body",
+                    placeholder: "Have something to say?"
                   },
-                  expression: "body"
-                }
-              })
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-success",
-              attrs: { type: "submit" },
-              on: { click: _vm.addReply }
-            },
-            [_vm._v("Post")]
-          )
-        ])
-      : _c("div", [_vm._m(0)])
+                  model: {
+                    value: _vm.body,
+                    callback: function($$v) {
+                      _vm.body = $$v
+                    },
+                    expression: "body"
+                  }
+                })
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-success",
+                attrs: { type: "submit" },
+                on: { click: _vm.addReply }
+              },
+              [_vm._v("Post")]
+            )
+          ])
   ])
 }
 var staticRenderFns = [

@@ -33,7 +33,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $appends = [
-        'isAdmin'
+        'isAdmin', 'confirmed'
     ];
 
     /**
@@ -105,6 +105,14 @@ class User extends Authenticatable implements MustVerifyEmail
     public function getIsAdminAttribute()
     {
         return $this->isAdmin();
+    }
+
+    /**
+     * @return bool
+     */
+    public function getConfirmedAttribute()
+    {
+        return $this->hasVerifiedEmail();
     }
 
     /**
