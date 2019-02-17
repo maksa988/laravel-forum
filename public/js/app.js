@@ -11368,15 +11368,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['active'],
+  data: function data() {
+    return {
+      isActive: this.active
+    };
+  },
   computed: {
     classes: function classes() {
-      return ['btn', this.active ? 'btn-success' : 'btn-info'];
+      return ['btn', this.isActive ? 'btn-success' : 'btn-info'];
     }
   },
   methods: {
     subscribe: function subscribe() {
-      axios[this.active ? 'delete' : 'post'](location.pathname + '/subscriptions');
-      this.active = !this.active;
+      axios[this.isActive ? 'delete' : 'post'](location.pathname + '/subscriptions');
+      this.isActive = !this.isActive;
     }
   }
 });
