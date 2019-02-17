@@ -11080,8 +11080,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      body: '',
-      completed: false
+      body: ''
     };
   },
   mounted: function mounted() {
@@ -11110,7 +11109,6 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (_ref) {
         var data = _ref.data;
         _this.body = '';
-        _this.completed = true;
         flash("Your reply has been posted.");
 
         _this.$emit("created", data);
@@ -11455,20 +11453,28 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 trix__WEBPACK_IMPORTED_MODULE_0___default.a.config.blockAttributes.default.tagName = "p";
 trix__WEBPACK_IMPORTED_MODULE_0___default.a.config.blockAttributes.code.tagName = "code";
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['name', 'value', 'placeholder', 'shouldClear'],
-  mounted: function mounted() {
-    var _this = this;
-
-    this.$refs.trix.addEventListener('trix-change', function (e) {
-      _this.$emit('input', e.target.innerHTML);
-    });
-    this.$watch('shouldClear', function () {
-      _this.$refs.trix.value = '';
-    });
+  props: ['name', 'value', 'placeholder'],
+  watch: {
+    value: function value(val) {
+      if (val === '') {
+        this.$refs.trix.value = '';
+      }
+    }
+  },
+  methods: {
+    change: function change(_ref) {
+      var target = _ref.target;
+      this.$emit('input', target.value);
+    }
   }
 });
 
@@ -82640,11 +82646,7 @@ var render = function() {
             { staticClass: "from-group mb-3" },
             [
               _c("wysiwyg", {
-                attrs: {
-                  name: "body",
-                  placeholder: "Have something to say?",
-                  shouldClear: _vm.completed
-                },
+                attrs: { name: "body", placeholder: "Have something to say?" },
                 model: {
                   value: _vm.body,
                   callback: function($$v) {
@@ -83128,7 +83130,8 @@ var render = function() {
       _vm._v(" "),
       _c("trix-editor", {
         ref: "trix",
-        attrs: { input: "trix", placeholder: _vm.placeholder }
+        attrs: { input: "trix", placeholder: _vm.placeholder },
+        on: { "trix-change": _vm.change }
       })
     ],
     1

@@ -2,7 +2,7 @@
     <div>
         <div v-if="signedIn">
             <div class="from-group mb-3">
-                <wysiwyg name="body" v-model="body" placeholder="Have something to say?" :shouldClear="completed"></wysiwyg>
+                <wysiwyg name="body" v-model="body" placeholder="Have something to say?"></wysiwyg>
             </div>
 
             <button type="submit" class="btn btn-success" @click="addReply">Post</button>
@@ -22,7 +22,6 @@
         data: function () {
             return {
                 body: '',
-                completed: false,
             }
         },
 
@@ -48,7 +47,6 @@
                         })
                     .then(({ data }) => {
                         this.body = '';
-                        this.completed = true;
 
                         flash("Your reply has been posted.");
 
