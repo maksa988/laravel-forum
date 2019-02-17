@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Events\ThreadHasNewReply;
-use App\Notifications\YouWereMentioned;
+use App\Services\Mentions;
 use App\Services\Reputation;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
@@ -55,7 +55,7 @@ class Thread extends Model
         static::created(function ($thread) {
             $thread->update(['slug' => $thread->title]);
 
-            $thread->notifyMentionedUsers();
+            Mentions::notifyMentionedUsers($thread);
 
             Reputation::award($thread->creator, Reputation::THREAD_WAS_PUBLISHED);
         });
@@ -114,28 +114,6 @@ class Thread extends Model
         event(new ThreadHasNewReply($this, $reply));
 
         return $reply;
-    }
-
-    /**
-     * Fetch all mentioned users within the thread's body.
-     *
-     * @return bool
-     */
-    public function notifyMentionedUsers()
-    {
-        preg_match_all('/@([\w\-]+)/', $this->body, $matches);
-
-        if(isset($matches[1])) {
-            User::whereIn('name', $matches[1])
-                ->get()
-                ->each(function ($user) {
-                    $user->notify(new YouWereMentioned($this));
-                });
-
-            return true;
-        }
-
-        return false;
     }
 
     /**

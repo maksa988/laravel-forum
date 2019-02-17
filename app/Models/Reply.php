@@ -78,16 +78,6 @@ class Reply extends Model
     }
 
     /**
-     * @return mixed
-     */
-    public function mentionedUsers()
-    {
-        preg_match_all('/@([\w\-]+)/', $this->body, $matches);
-
-        return $matches[1];
-    }
-
-    /**
      * @param $body
      */
     public function setBodyAttribute($body)
