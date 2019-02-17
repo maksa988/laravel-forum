@@ -30,6 +30,13 @@ class User extends Authenticatable implements MustVerifyEmail
     ];
 
     /**
+     * @var array
+     */
+    protected $appends = [
+        'isAdmin'
+    ];
+
+    /**
      * @return string
      */
     public function getRouteKeyName()
@@ -88,6 +95,16 @@ class User extends Authenticatable implements MustVerifyEmail
     public function isAdmin()
     {
         return in_array($this->name, ['maksa988'], true);
+    }
+
+    /**
+     * Determine if the user is an administrator.
+     *
+     * @return bool
+     */
+    public function getIsAdminAttribute()
+    {
+        return $this->isAdmin();
     }
 
     /**
