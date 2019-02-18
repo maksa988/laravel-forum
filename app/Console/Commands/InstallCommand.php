@@ -147,11 +147,11 @@ class InstallCommand extends Command
      */
     public function askHiddenWithDefault($question, $fallback = true)
     {
-        $question = new Question($question, 'NULL');
+        $question = new Question($question, 'null');
 
         $question->setHidden(true)->setHiddenFallback($fallback);
 
-        $password = $this->output->askQuestion($question);
+        return $this->output->askQuestion($question);
 
     }
 }
