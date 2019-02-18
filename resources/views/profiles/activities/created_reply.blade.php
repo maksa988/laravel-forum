@@ -1,7 +1,7 @@
 @component('profiles.activities.activity')
     @slot('heading')
         <div class="col">
-            <a href="{{ route('profile', $activity->subject->owner) }}">{{ $activity->subject->owner->name }}</a> replied to
+            <a href="{{ route('profile', $activity->subject->owner) }}">{{ $activity->subject->owner->username }}</a> replied to
             "<a href="{{ $activity->subject->path() }}">{{ $activity->subject->thread->title }}</a>"
         </div>
         <div class="col text-right">

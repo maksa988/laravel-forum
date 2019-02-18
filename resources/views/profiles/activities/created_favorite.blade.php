@@ -2,7 +2,7 @@
     @slot('heading')
         <div class="col">
             <a href="{{ $activity->subject->favorited->path() }}">
-                {{ $profileUser->name }} favorited a reply...
+                {{ $profileUser->username }} favorited a reply...
             </a>
         </div>
         <div class="col text-right">

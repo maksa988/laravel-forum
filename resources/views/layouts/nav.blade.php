@@ -18,7 +18,7 @@
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="/threads">All Threads</a>
                         @if(auth()->check())
-                            <a class="dropdown-item" href="/threads?by={{ auth()->user()->name }}">My Threads</a>
+                            <a class="dropdown-item" href="/threads?by={{ auth()->user()->username }}">My Threads</a>
                         @endif
                         <a class="dropdown-item" href="/threads?popular=1">Popular Threads</a>
                         <a class="dropdown-item" href="/threads?unanswered=1">Unanswered Threads</a>
@@ -54,7 +54,7 @@
                     <user-notifications></user-notifications>
                     <li class="nav-item dropdown">
                         <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                            {{ Auth::user()->name }} <span class="caret"></span>
+                            {{ Auth::user()->username }} <span class="caret"></span>
                         </a>
 
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
