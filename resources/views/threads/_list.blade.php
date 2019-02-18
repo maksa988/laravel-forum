@@ -26,7 +26,12 @@
         </div>
 
         <div class="card-footer text-muted">
-            {{ $thread->visits }} Visits
+            <div class="d-flex">
+                <div class="mr-auto">
+                    {{ $thread->visits }} Visits
+                </div>
+                <a href="/threads/{{ $thread->channel->slug }}"><span class="badge badge-primary">{{ $thread->channel->name}}</span></a>
+            </div>
         </div>
     </div>
 @empty
