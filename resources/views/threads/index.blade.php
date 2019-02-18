@@ -12,7 +12,7 @@
             </div>
 
             <div class="col-md-4">
-                <form class="input-group mt-3">
+                <form action="{{ route('threads.search') }}" class="input-group mt-3">
                     <input type="text" class="form-control" placeholder="Search for something..." name="q">
                     <div class="input-group-append">
                         <button class="btn btn-outline-secondary" type="submit">Search</button>
