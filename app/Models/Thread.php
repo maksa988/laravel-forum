@@ -4,8 +4,6 @@ namespace App\Models;
 
 use App\Events\ThreadReceivedNewReply;
 use App\Events\ThreadWasPublished;
-use App\Services\Mentions;
-use App\Services\Reputation;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
 use Stevebauman\Purify\Facades\Purify;
@@ -50,7 +48,7 @@ class Thread extends Model
         static::deleting(function ($thread) {
             $thread->replies->each->delete();
 
-            Reputation::reduce($thread->creator, Reputation::THREAD_WAS_PUBLISHED);
+            $thread->creator->loseReputation('thread_published');
         });
 
         static::created(function ($thread) {
@@ -58,7 +56,7 @@ class Thread extends Model
 
             event(new ThreadWasPublished($thread));
 
-            Reputation::award($thread->creator, Reputation::THREAD_WAS_PUBLISHED);
+            $thread->creator->gainReputation('thread_published');
         });
     }
 
@@ -224,12 +222,12 @@ class Thread extends Model
     public function markBestReply(Reply $reply)
     {
         if ($this->hasBestReply()) {
-            Reputation::reduce($this->bestReply->owner, Reputation::BEST_REPLY_AWARDED);
+            $this->bestReply->owner->loseReputation('best_reply_awarded');
         }
 
         $this->update(['best_reply_id' => $reply->id]);
 
-        Reputation::award($reply->owner, Reputation::BEST_REPLY_AWARDED);
+        $reply->owner->gainReputation('best_reply_awarded');
     }
 
     /**

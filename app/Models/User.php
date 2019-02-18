@@ -9,7 +9,7 @@ use Illuminate\Support\Carbon;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use Notifiable;
+    use Notifiable, HasReputation;
 
     /**
      * The attributes that are mass assignable.
@@ -94,7 +94,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function isAdmin()
     {
-        return in_array($this->name, ['maksa988'], true);
+        return in_array($this->email, config('forum.administrators'), true);
     }
 
     /**

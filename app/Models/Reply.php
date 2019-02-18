@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Services\Reputation;
 use Illuminate\Database\Eloquent\Model;
 use Stevebauman\Purify\Facades\Purify;
 
@@ -35,13 +34,13 @@ class Reply extends Model
         static::created(function ($reply) {
             $reply->thread->increment('replies_count');
 
-            Reputation::award($reply->owner, Reputation::REPLY_POSTED);
+            $reply->owner->gainReputation('reply_posted');
         });
 
         static::deleted(function ($reply) {
             $reply->thread->decrement('replies_count');
 
-            Reputation::reduce($reply->owner, Reputation::REPLY_POSTED);
+            $reply->owner->loseReputation('reply_posted');
         });
     }
 
