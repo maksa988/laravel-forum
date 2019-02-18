@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="new-reply">
         <div v-if="! signedIn">
             <p class="text-center mt-3">Please <a href="/login">sign in</a> to participate in this discussion.</p>
         </div>
