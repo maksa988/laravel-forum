@@ -41,6 +41,10 @@ class Reply extends Model
             $reply->thread->decrement('replies_count');
 
             $reply->owner->loseReputation('reply_posted');
+
+            if ($reply->isBest()) {
+                $reply->owner->loseReputation('best_reply_awarded');
+            }
         });
     }
 
