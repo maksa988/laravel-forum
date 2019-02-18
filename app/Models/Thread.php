@@ -25,11 +25,6 @@ class Thread extends Model
     /**
      * @var array
      */
-    protected $appends = ['isSubscribedTo'];
-
-    /**
-     * @var array
-     */
     protected $casts = [
         'locked' => 'boolean',
         'pinned' => 'boolean'
