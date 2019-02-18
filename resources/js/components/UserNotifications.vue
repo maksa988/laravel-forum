@@ -10,6 +10,7 @@
                v-for="notification in notifications"
                v-text="notification.data.message"
                @click="markAsRead(notification)"
+               :key="notification.id"
             ></a>
         </div>
     </li>
@@ -23,14 +24,27 @@
             };
         },
 
+        computed: {
+            endpoint() {
+                return `/profiles/${window.App.user.username}/notifications`;
+            }
+        },
+
         created() {
-            axios.get(`/profiles/${window.App.user.name}/notifications`)
-                .then(response => this.notifications = response.data);
+            this.fetchNotifications();
         },
 
         methods: {
+            fetchNotifications() {
+                axios.get(this.endpoint)
+                    .then(response => this.notifications = response.data);
+            },
             markAsRead(notification) {
-                axios.delete(`/profiles/${window.App.user.name}/notifications/${notification.id}`);
+                axios.delete(`${this.endpoint}/${notification.id}`)
+                    .then(({data}) => {
+                        this.fetchNotifications();
+                        document.location.replace(data.link);
+                    });
             }
         }
     }

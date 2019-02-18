@@ -15,13 +15,27 @@ class UserNotificationsController extends Controller
         $this->middleware('auth');
     }
 
+    /**
+     * @return mixed
+     */
     public function index()
     {
         return auth()->user()->unreadNotifications;
     }
 
+    /**
+     * @param User $user
+     * @param $notificationId
+     * @return false|string
+     */
     public function destroy(User $user, $notificationId)
     {
-        auth()->user()->notifications()->findOrFail($notificationId)->markAsRead();
+        $notification = auth()->user()->notifications()->findOrFail($notificationId);
+
+        $notification->markAsRead();
+
+        return json_encode(
+            $notification->data
+        );
     }
 }
