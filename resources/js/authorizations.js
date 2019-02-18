@@ -6,7 +6,6 @@ module.exports = {
     },
 
     isAdmin() {
-        return true;
         return user.isAdmin;
     }
 };

@@ -3,22 +3,23 @@
     import SubscribeButton from '../components/SubscribeButton.vue';
 
     export default {
-        props: ['thread' ],
+        props: ['thread'],
 
-        components: { Replies, SubscribeButton },
+        components: {Replies, SubscribeButton},
 
-        data: function () {
+        data () {
             return {
                 repliesCount: this.thread.replies_count,
                 locked: this.thread.locked,
+                pinned: this.thread.pinned,
                 title: this.thread.title,
                 body: this.thread.body,
                 form: {},
-                editing: false,
+                editing: false
             };
         },
 
-        created() {
+        created () {
             this.resetForm();
         },
 
@@ -31,26 +32,44 @@
                 this.locked = ! this.locked;
             },
 
-            update() {
+            togglePin () {
+                let uri = `/pinned-threads/${this.thread.slug}`;
+
+                axios[this.pinned ? 'delete' : 'post'](uri);
+
+                this.pinned = ! this.pinned;
+            },
+
+            update () {
                 let uri = `/threads/${this.thread.channel.slug}/${this.thread.slug}`;
 
                 axios.patch(uri, this.form).then(() => {
                     this.editing = false;
-
                     this.title = this.form.title;
                     this.body = this.form.body;
 
                     flash('Your thread has been updated.');
-                });
+                })
             },
 
-            resetForm() {
+            resetForm () {
                 this.form = {
                     title: this.thread.title,
-                    body: this.thread.body,
+                    body: this.thread.body
                 };
 
                 this.editing = false;
+            },
+
+            testMethod() {
+                return ['btn'];
+            },
+
+            classes (target) {
+                return [
+                    'btn',
+                    target ? 'btn-primary' : 'btn-default'
+                ];
             }
         }
     }
