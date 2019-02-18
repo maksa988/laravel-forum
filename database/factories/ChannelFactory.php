@@ -16,6 +16,7 @@ use Faker\Generator as Faker;
 $factory->define(App\Models\Channel::class, function (Faker $faker) {
     return [
         'name' => $faker->unique()->word,
-        'description' => $faker->sentence
+        'description' => $faker->sentence,
+        'archived' => false
     ];
 });
