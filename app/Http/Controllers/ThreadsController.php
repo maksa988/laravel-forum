@@ -173,6 +173,6 @@ class ThreadsController extends Controller
             $threads->where('channel_id', $channel->id);
         }
 
-        return $threads->paginate(25);
+        return $threads->paginate(config('forum.pagination.perPage'));
     }
 }
