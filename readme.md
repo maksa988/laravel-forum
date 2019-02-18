@@ -19,9 +19,9 @@ npm run dev
 
 ### Step 2.
 
-Next, boot up a server and visit your forum. If using a tool like Laravel Valet, of course the URL will default to `http://council.test`. 
+Next, boot up a server and visit your forum. If using a tool like Laravel Valet, of course the URL will default to `http://forum.test`. 
 
-Visit: `http://council.test/register` to register a new forum account.
+Visit: `http://forum.test/register` to register a new forum account.
 
 ### Step 3.
 
